@@ -1,6 +1,6 @@
 {
-    "appSecret": "",
+    "appSecret": "98cf8e91202e07efda67199d4ee3c788",
     "pageAccessToken": "",
-    "validationToken": "",
-    "serverURL": ""
+    "validationToken": "bot-center",
+    "serverURL": "https://bot-center-dev.herokuapp.com/"
 }

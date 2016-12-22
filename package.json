@@ -1,7 +1,7 @@
 {
-  "name": "messenger-get-started",
+  "name": "bot-center-dev",
   "version": "1.0.0",
-  "description": "Get started example for Messenger Platform",
+  "description": "Hello! I am BotCenter, collect all chatbot from around the world.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fbsamples/messenger-platform-samples.git"
+    "url": "https://github.com/yulocus/BotCenter.git"
   },
-  "author": "Facebook",
+  "author": "Locus & Johan",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.0",

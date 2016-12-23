@@ -1,6 +1,7 @@
 'use strict'
 
 const config = require('config')
+const request = require('request')
 const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   (process.env.MESSENGER_VALIDATION_TOKEN) :
   config.get('validationToken')

@@ -1,6 +1,7 @@
 'use strict'
 
 const fb = require('./facebook')
+const apiai = require('./apiai')
 
 exports.handleApiAI = function (response, sender) {
   let responseText = response.result.fulfillment.speech
@@ -15,6 +16,6 @@ exports.handleApiAI = function (response, sender) {
     let payload = response.result.fulfillment.messages[1].payload.facebook
     fb.sendMessage(sender, payload)
   } else {
-    fb.processResponseData(sender, responseData, responseText)
+    apiai.processResponseData(sender, responseData, responseText)
   }
 }

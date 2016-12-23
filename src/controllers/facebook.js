@@ -646,8 +646,6 @@ function sendAccountLinking (recipientId) {
 function callSendAPI (messageData) {
   console.log(messageData)
 
-  console.log("page access token:" + PAGE_ACCESS_TOKEN)
-
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },

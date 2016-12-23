@@ -11,7 +11,7 @@ var app = express()
 app.set('port', process.env.PORT || 5000)
 app.set('view engine', 'ejs')
 app.use(bodyParser.json({ verify: verifyRequestSignature }))
-app.use(express.static('../public'))
+app.use(express.static('./public'))
 
 globby.sync(['./src/routes/**/*.js']).forEach(function (routePath) {
   require(path.resolve(routePath))(app)

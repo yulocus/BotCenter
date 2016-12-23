@@ -21,6 +21,7 @@
     "ejs": "^2.4.2",
     "elasticsearch": "^12.1.3",
     "express": "^4.13.4",
+    "globby": "^6.1.0",
     "request": "^2.72.0"
   },
   "engines": {

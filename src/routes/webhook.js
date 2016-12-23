@@ -19,3 +19,4 @@ module.exports = function (app) {
  *
  */
   app.get('/webhook', webhook.checkValidationToken)
+}

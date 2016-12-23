@@ -17,7 +17,6 @@ const
   request = require('request'),
   app = require('./src/express');
 
-
 /*
  * Be sure to setup your config values before running this code. You can
  * set them using environment variables or modifying the config file in /config.

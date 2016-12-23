@@ -3,8 +3,9 @@
 const apiai = require('apiai')
 const fb = require('./facebook')
 const genericHandler = require('./generic_handler')
+const config = require('config')
 
-const APIAI_ACCESS_TOKEN = process.env.APIAI_ACCESS_TOKEN || appConfig.env.APIAI_ACCESS_TOKEN
+const APIAI_ACCESS_TOKEN = process.env.APIAI_ACCESS_TOKEN || config.get('apiaiAccessToken')
 const APIAI_LANG = process.env.APIAI_LANG || 'en'
 const apiAiService = apiai(APIAI_ACCESS_TOKEN, { language: APIAI_LANG, requestSource: 'fb' })
 
@@ -86,7 +87,7 @@ module.exports.textRequest = function (text, senderId) {
   })
 
   apiaiRequest.on('error', (error) => {
-    console.error(error)
+    console.error('apiai:' + error)
     fb.sendTextMessage(senderId, error)
   })
   apiaiRequest.end()

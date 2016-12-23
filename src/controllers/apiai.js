@@ -81,7 +81,7 @@ module.exports.textRequest = function (text, senderId) {
       console.log('response:' + responseText)
 
       if (action) {
-        genericHandler.handle(response, senderId)
+        genericHandler.handleApiAI(response, senderId)
       }
     }
   })

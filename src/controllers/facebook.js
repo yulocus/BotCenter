@@ -94,7 +94,7 @@ module.exports.receivedMessage = function (event) {
   }
 
   if (messageText) {
-    apiai.textRequest(messageText)
+    apiai.textRequest(messageText, senderID)
 
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo

@@ -106,7 +106,7 @@ module.exports.processResponseData = function (sender, responseData, responseTex
   } else if (isDefined(responseText)) {
     console.log('Response:' + responseText)
 
-    fb.sendTextMessage(sender, { text: responseText})
+    fb.sendTextMessage(sender, responseText)
 
     // // facebook API limit for text length is 320,
     // // so we split message if needed

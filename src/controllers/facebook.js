@@ -2,6 +2,7 @@
 
 const config = require('config')
 const request = require('request')
+const apiai = require('./apiai')
 
 const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   (process.env.MESSENGER_VALIDATION_TOKEN) :
@@ -14,7 +15,7 @@ const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
 const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL')
-  
+
 /*
 * Authorization Event
 *
@@ -93,66 +94,67 @@ module.exports.receivedMessage = function (event) {
   }
 
   if (messageText) {
+    apiai.textRequest(messageText)
 
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
-    switch (messageText) {
-      case 'image':
-        sendImageMessage(senderID)
-        break
+    // switch (messageText) {
+    //   case 'image':
+    //     sendImageMessage(senderID)
+    //     break
 
-      case 'gif':
-        sendGifMessage(senderID)
-        break
+    //   case 'gif':
+    //     sendGifMessage(senderID)
+    //     break
 
-      case 'audio':
-        sendAudioMessage(senderID)
-        break
+    //   case 'audio':
+    //     sendAudioMessage(senderID)
+    //     break
 
-      case 'video':
-        sendVideoMessage(senderID)
-        break
+    //   case 'video':
+    //     sendVideoMessage(senderID)
+    //     break
 
-      case 'file':
-        sendFileMessage(senderID)
-        break
+    //   case 'file':
+    //     sendFileMessage(senderID)
+    //     break
 
-      case 'button':
-        sendButtonMessage(senderID)
-        break
+    //   case 'button':
+    //     sendButtonMessage(senderID)
+    //     break
 
-      case 'generic':
-        sendGenericMessage(senderID)
-        break
+    //   case 'generic':
+    //     sendGenericMessage(senderID)
+    //     break
 
-      case 'receipt':
-        sendReceiptMessage(senderID)
-        break
+    //   case 'receipt':
+    //     sendReceiptMessage(senderID)
+    //     break
 
-      case 'quick reply':
-        sendQuickReply(senderID)
-        break
+    //   case 'quick reply':
+    //     sendQuickReply(senderID)
+    //     break
 
-      case 'read receipt':
-        sendReadReceipt(senderID)
-        break
+    //   case 'read receipt':
+    //     sendReadReceipt(senderID)
+    //     break
 
-      case 'typing on':
-        sendTypingOn(senderID)
-        break
+    //   case 'typing on':
+    //     sendTypingOn(senderID)
+    //     break
 
-      case 'typing off':
-        sendTypingOff(senderID)
-        break
+    //   case 'typing off':
+    //     sendTypingOff(senderID)
+    //     break
 
-      case 'account linking':
-        sendAccountLinking(senderID)
-        break
+    //   case 'account linking':
+    //     sendAccountLinking(senderID)
+    //     break
 
-      default:
-        sendTextMessage(senderID, messageText)
-    }
+  //   default:
+  //     sendTextMessage(senderID, messageText)
+  // }
   } else if (messageAttachments) {
     sendTextMessage(senderID, 'Message with attachment received')
   }
@@ -165,7 +167,7 @@ module.exports.receivedMessage = function (event) {
  * these fields at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
  *
  */
-module.exports.receivedDeliveryConfirmation = function(event) {
+module.exports.receivedDeliveryConfirmation = function (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
   var delivery = event.delivery
@@ -214,7 +216,7 @@ module.exports.receivedPostback = function (event) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
  *
  */
-module.exports.receivedMessageRead = function(event) {
+module.exports.receivedMessageRead = function (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
 
@@ -234,7 +236,7 @@ module.exports.receivedMessageRead = function(event) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/account-linking
  *
  */
-module.exports.receivedAccountLink = function(event) {
+module.exports.receivedAccountLink = function (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
 
@@ -243,6 +245,16 @@ module.exports.receivedAccountLink = function(event) {
 
   console.log('Received account link event with for user %d with status %s ' +
     'and auth code %s ', senderID, status, authCode)
+}
+
+module.exports.sendMessage = function (recipientId, message) {
+  let messageData = {
+    recipient: {
+      id: recipientId
+    },
+  message}
+
+  callSendAPI(messageData)
 }
 
 /*
@@ -359,6 +371,7 @@ function sendFileMessage (recipientId) {
  * Send a text message using the Send API.
  *
  */
+module.exports.sendTextMessage = sendTextMessage
 function sendTextMessage (recipientId, messageText) {
   var messageData = {
     recipient: {

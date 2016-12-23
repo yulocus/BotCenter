@@ -10,6 +10,10 @@ const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
   (process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
   config.get('pageAccessToken')
 
+const SERVER_URL = (process.env.SERVER_URL) ?
+  (process.env.SERVER_URL) :
+  config.get('serverURL')
+
 module.exports.handleWebhook = function (req, res) {
   console.log('webhook received')
   var data = req.body

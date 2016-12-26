@@ -15,5 +15,5 @@ module.exports.handle = function (sender, params) {
   let deleteAllButton = fb.generateButton('postback', 'Delete All', JSON.stringify({action: 'delete_all'}))
 
   let buttons = [browseButton, favoriteButton, deleteAllButton]
-  fb.sendButtonMessage(sender, 'What type of robot are you looking for?', buttons)
+  fb.sendButtonMessage(sender, 'What type of bots are you looking for?', buttons)
 }

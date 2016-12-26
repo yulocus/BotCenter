@@ -3,6 +3,7 @@
 const config = require('config')
 const request = require('request')
 const apiai = require('./apiai')
+const postback = require('./postback')
 
 const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   (process.env.MESSENGER_VALIDATION_TOKEN) :
@@ -390,7 +391,8 @@ function sendTextMessage (recipientId, messageText) {
  * Send a button message using the Send API.
  *
  */
-function sendButtonMessage (recipientId) {
+module.exports.sendButtonMessage = sendButtonMessage
+function sendButtonMessage (recipientId, text, buttons) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -400,26 +402,48 @@ function sendButtonMessage (recipientId) {
         type: 'template',
         payload: {
           template_type: 'button',
-          text: 'This is test text',
-          buttons: [{
-            type: 'web_url',
-            url: 'https://www.oculus.com/en-us/rift/',
-            title: 'Open Web URL'
-          }, {
-            type: 'postback',
-            title: 'Trigger Postback',
-            payload: 'DEVELOPER_DEFINED_PAYLOAD'
-          }, {
-            type: 'phone_number',
-            title: 'Call Phone Number',
-            payload: '+16505551234'
-          }]
-        }
+          text,
+        buttons}
       }
     }
   }
 
+  /** 
+   buttons: [{
+      type: 'web_url',
+      url: 'https://www.oculus.com/en-us/rift/',
+      title: 'Open Web URL'
+    }, {
+      type: 'postback',
+      title: 'Trigger Postback',
+      payload: 'DEVELOPER_DEFINED_PAYLOAD'
+    }, {
+      type: 'phone_number',
+      title: 'Call Phone Number',
+      payload: '+16505551234'
+    }]
+  */
+
   callSendAPI(messageData)
+}
+
+/**
+ * Generate a facebook button
+ * Type - web_url, postback or phone_number
+ */
+module.exports.generateButton = function (type, title, payload) {
+  if (type === 'web_url') {
+    return {
+      type,
+      title,
+      url: payload
+    }
+  } else {
+    return {
+      type,
+      title,
+    payload}
+  }
 }
 
 /*

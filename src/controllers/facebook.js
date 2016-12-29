@@ -734,9 +734,9 @@ function getUserProfile(recipientID) {
   console.log("recipient id=" + recipientID);
   return request({
     method: 'GET',
-    uri: ' https://graph.facebook.com/v2.6/' + recipientID,
+    uri: 'https://graph.facebook.com/v2.6/' + recipientID,
     qs: { 
-      fields:"first_name,last_name,profile_pic,locale,timezone,gender",
+      fields:"name,picture,locale,timezone,gender",
       access_token: PAGE_ACCESS_TOKEN 
     },
     json: true

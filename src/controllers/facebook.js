@@ -17,6 +17,11 @@ const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL')
 
+
+const MONGODB_URI = (process.env.MONGODB_URI) ?
+  (process.env.MONGODB_URI) :
+  config.get('mongodbURI')
+
 /*
 * Authorization Event
 *
@@ -205,6 +210,10 @@ module.exports.receivedPostback = function (event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     'at %d', senderID, recipientID, payload, timeOfPostback)
 
+  if(checkNewUser(recipientID)) {
+    getUserProfile(recipientID)
+  }
+
   postback.handle(senderID, payload)
 }
 
@@ -225,6 +234,10 @@ module.exports.receivedMessageRead = function (event) {
 
   console.log('Received message read event for watermark %d and sequence ' +
     'number %d', watermark, sequenceNumber)
+
+  if(checkNewUser(recipientID)) {
+    getUserProfile(recipientID)
+  }
 }
 
 /*
@@ -705,7 +718,19 @@ function callSendAPI (messageData) {
   })
 }
 
-module.exports.getUserProfile = function (recipientId) {
+/*
+ * Call the CheckNewUser API. To check current user already save data into our db
+ *
+ */
+function checkNewUser(recipientId) {
+  return true
+}
+
+/*
+ * Call the GetUserProfile API. To get facebook user profile
+ *
+ */
+function getUserProfile(recipientId) {
   return request({
     method: 'GET',
     uri: 'https://graph.facebook.com/v2.6/${recipientId}',
@@ -717,7 +742,7 @@ module.exports.getUserProfile = function (recipientId) {
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       userData = JSON.parse(body);
-      console.log("Get user profile =" + JSON.stringify(userData));
+      console.log("Get user profile=" + JSON.stringify(userData));
     } else {
       console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error)
     }

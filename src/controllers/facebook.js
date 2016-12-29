@@ -210,8 +210,8 @@ module.exports.receivedPostback = function (event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     'at %d', senderID, recipientID, payload, timeOfPostback)
 
-  if(checkNewUser(recipientID)) {
-    getUserProfile(recipientID)
+  if(checkNewUser()) {
+    getUserProfile()
   }
 
   postback.handle(senderID, payload)
@@ -235,8 +235,8 @@ module.exports.receivedMessageRead = function (event) {
   console.log('Received message read event for watermark %d and sequence ' +
     'number %d', watermark, sequenceNumber)
 
-  if(checkNewUser(recipientID)) {
-    getUserProfile(recipientID)
+  if(checkNewUser()) {
+    getUserProfile()
   }
 }
 
@@ -722,7 +722,7 @@ function callSendAPI (messageData) {
  * Call the CheckNewUser API. To check current user already save data into our db
  *
  */
-function checkNewUser(recipientId) {
+function checkNewUser() {
   return true
 }
 
@@ -730,10 +730,10 @@ function checkNewUser(recipientId) {
  * Call the GetUserProfile API. To get facebook user profile
  *
  */
-function getUserProfile(recipientId) {
+function getUserProfile() {
   return request({
     method: 'GET',
-    uri: 'https://graph.facebook.com/v2.6/${recipientId}',
+    uri: 'https://graph.facebook.com/me',
     qs: { 
       fields:"first_name,last_name,profile_pic,locale,timezone,gender",
       access_token: PAGE_ACCESS_TOKEN 

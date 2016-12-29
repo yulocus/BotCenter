@@ -704,3 +704,22 @@ function callSendAPI (messageData) {
     }
   })
 }
+
+module.exports.getUserProfile = function (recipientId) {
+  return request({
+    method: 'GET',
+    uri: 'https://graph.facebook.com/v2.6/${recipientId}',
+    qs: { 
+      fields:"first_name,last_name,profile_pic,locale,timezone,gender",
+      access_token: PAGE_ACCESS_TOKEN 
+    },
+    json: true
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      userData = JSON.parse(body);
+      console.log("Get user profile =" + JSON.stringify(userData));
+    } else {
+      console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error)
+    }
+  })
+}

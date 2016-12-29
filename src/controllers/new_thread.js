@@ -6,7 +6,7 @@ const apiai = require('./apiai')
 module.exports.handle = function (sender, params) {
 
   // What type of robot are you looking for?
-  //   1.Browse Categories
+  // 1.Browse Categories
   // 2.My Favorite Bots
   // 3.Delete All
 

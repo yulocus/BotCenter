@@ -210,8 +210,8 @@ module.exports.receivedPostback = function (event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     'at %d', senderID, recipientID, payload, timeOfPostback)
 
-  if(checkNewUser()) {
-    getUserProfile()
+  if(checkNewUser(recipientID)) {
+    getUserProfile(recipientID)
   }
 
   postback.handle(senderID, payload)
@@ -235,8 +235,8 @@ module.exports.receivedMessageRead = function (event) {
   console.log('Received message read event for watermark %d and sequence ' +
     'number %d', watermark, sequenceNumber)
 
-  if(checkNewUser()) {
-    getUserProfile()
+  if(checkNewUser(recipientID)) {
+    getUserProfile(recipientID)
   }
 }
 
@@ -730,10 +730,11 @@ function checkNewUser() {
  * Call the GetUserProfile API. To get facebook user profile
  *
  */
-function getUserProfile() {
+function getUserProfile(recipientID) {
+  console.log("recipient id=" + recipientID);
   return request({
     method: 'GET',
-    uri: 'https://graph.facebook.com/me',
+    uri: ' https://graph.facebook.com/v2.6/' + recipientID,
     qs: { 
       fields:"first_name,last_name,profile_pic,locale,timezone,gender",
       access_token: PAGE_ACCESS_TOKEN 
@@ -744,7 +745,7 @@ function getUserProfile() {
       userData = JSON.parse(body);
       console.log("Get user profile=" + JSON.stringify(userData));
     } else {
-      console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error)
+      console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);
     }
   })
 }

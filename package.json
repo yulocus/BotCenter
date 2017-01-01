@@ -23,6 +23,7 @@
     "express": "^4.13.4",
     "globby": "^6.1.0",
     "lodash": "^4.17.2",
+    "mongodb": "^2.2.16",
     "request": "^2.72.0"
   },
   "engines": {

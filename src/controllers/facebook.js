@@ -5,6 +5,8 @@ const request = require('request')
 const apiai = require('./apiai')
 const postback = require('./postback')
 
+{User} = require "../models/user"
+
 const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   (process.env.MESSENGER_VALIDATION_TOKEN) :
   config.get('validationToken')
@@ -16,6 +18,13 @@ const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
 const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL')
+
+
+const MONGODB_URI = (process.env.MONGODB_URI) ?
+  (process.env.MONGODB_URI) :
+  config.get('mongodbURI')
+
+var mongoose = require('mongoose');
 
 /*
 * Authorization Event
@@ -205,6 +214,10 @@ module.exports.receivedPostback = function (event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     'at %d', senderID, recipientID, payload, timeOfPostback)
 
+  if(checkNewUser(senderID)) {
+    getUserProfile(senderID)
+  }
+
   postback.handle(senderID, payload)
 }
 
@@ -225,6 +238,10 @@ module.exports.receivedMessageRead = function (event) {
 
   console.log('Received message read event for watermark %d and sequence ' +
     'number %d', watermark, sequenceNumber)
+
+  if(checkNewUser(senderID)) {
+    getUserProfile(senderID)
+  }
 }
 
 /*
@@ -703,4 +720,85 @@ function callSendAPI (messageData) {
       console.error('Failed calling Send API', response.statusCode, response.statusMessage, body.error)
     }
   })
+}
+
+/*
+ * Call the CheckNewUser API. To check current user already save data into our db
+ *
+ */
+var checkNewUser = function(db, id, callback) {
+  var collection = db.collection("user");
+  var condition = {"id", id};
+  collection.find(condition).toArray(function(error) {
+    if(error) {
+      console.log("Check new user error, message=" + error);
+      return false;
+    } 
+
+    return true;
+  });
+}
+
+/*
+ * Call the GetUserProfile API. To get facebook user profile
+ *
+ */
+function getUserProfile(userID) {
+  console.log("user id=" + userID);
+  mongoose.connect(MONGODB_URI + "/user");
+
+  // check user from database
+  User.find({ id: userID }, function(err, result) {
+    if(!err) {
+      console.log("User exists");
+      return;
+    }
+
+    return request({
+      method: 'GET',
+      uri: 'https://graph.facebook.com/v2.6/' + userID,
+      qs: { 
+        fields:"first_name,last_name,profile_pic,locale,timezone,gender",
+        access_token: PAGE_ACCESS_TOKEN 
+      },
+      json: true
+    }, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log("Get user profile=" + JSON.stringify(body));
+
+        var data = JSON.parse(body);
+        // save user into database
+        var user = new User();
+        user.id = data.userID;
+        user.first_name = data.first_name; 
+        user.last_name = data.last_name;
+        user.image = data.profile_pic;
+        user.locale = data.locale;
+        user.timezone = data.timezone; 
+        user.gender = data.gender;
+        user.save();
+
+      } else {
+        console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);
+      }
+    });
+}
+
+
+
+
+
+  // check user 
+  mongoClient.connect(MONGODB_URI, function(error, db){
+    console.log("Database connection successful");
+    
+    var userExists = checkNewUser(db, userID, function(result) {
+      console.log("result=" + result);
+      db.close();
+    });
+
+    if(userExists) return;
+
+   
+  }
 }

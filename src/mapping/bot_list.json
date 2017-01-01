@@ -1,0 +1,33 @@
+{
+    "properties": {
+        "id":{
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "desc": {
+            "type": "string"
+        },
+        "img": {
+            "type": "string",
+            "index": "no"
+        },
+        "url": {
+            "type": "string",
+            "index": "no"
+        },
+        "detail_url": {
+            "type": "string",
+            "index": "no"
+        },
+        "image": {
+            "type": "string",
+            "index": "no"
+        },
+        "categories":{
+            "type": "string",
+            "index": "not_analyzed"
+        }
+    }
+}

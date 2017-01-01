@@ -3,7 +3,9 @@ Schema = mongoose.Schema
 
 # User schema
 UserSchema = new Schema
-	name: String 
+	id: String
+	first_name: String 
+	last_name: String
 	image: String
   	locale: String
   	timezone: String

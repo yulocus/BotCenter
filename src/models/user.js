@@ -1,21 +1,21 @@
-mongoose = require 'mongoose'
-Schema = mongoose.Schema
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
 
-# User schema
-UserSchema = new Schema
-	id: String
-	first_name: String 
-	last_name: String
-	image: String
-  	locale: String
-  	timezone: String
+// user schema
+var UserSchema = new Schema({
+    id: ObjectId,
+    first_name: String,
+	last_name: String,
+	image: String,
+  	locale: String,
+  	timezone: String,
 	gender: String
+});
 
-# All schema
-User = mongoose.model 'User', UserSchema
-ret =
-  User: User
+// all schema
+var User = mongoose.model('User', UserSchema);
 
-# Export schemas
-module.exports = ret
+// export schemas
+module.exports = User
 

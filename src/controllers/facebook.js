@@ -23,7 +23,7 @@ const MONGODB_URI = (process.env.MONGODB_URI) ?
   config.get('mongodbURI')
 
 var mongoose = require('mongoose');
-{User} = require('../models')
+var User = require('../models/user')
 
 /*
 * Authorization Event
@@ -764,5 +764,5 @@ function getUserProfile(userID) {
         console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);
       }
     });
-  }
+  });
 }

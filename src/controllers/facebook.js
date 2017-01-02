@@ -745,7 +745,7 @@ function getUserProfile(userID) {
         if (!error && response.statusCode == 200) {
           console.log("Get user profile=" + JSON.stringify(body));
 
-          var data = JSON.parse(body);
+          var data = JSON.parse(JSON.stringify(body));
           // save user into database
           var user = new User();
           user.id = '1173650439355322';

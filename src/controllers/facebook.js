@@ -723,15 +723,17 @@ function callSendAPI (messageData) {
  */
 function getUserProfile(userID) {
   console.log("user id=" + userID);
-  mongoose.connect(MONGODB_URI + "/user");
+  mongoose.connect(MONGODB_URI);
+  console.log("Connect database successful");
 
   // check user from database
-  User.find({ id: userID }, function(err, result) {
-    if(!err) {
+  User.findOne({ id: userID }, function(err, result) {
+    if(!err && result.length > 0) {
       console.log("User exists");
       return;
     }
-
+    
+    console.log("User not found");
     return request({
       method: 'GET',
       uri: 'https://graph.facebook.com/v2.6/' + userID,
@@ -754,7 +756,13 @@ function getUserProfile(userID) {
         user.locale = data.locale;
         user.timezone = data.timezone; 
         user.gender = data.gender;
-        user.save();
+        user.save(function (error) {
+          if(!err) {
+            console.log("Created user" + user.id);
+          }
+
+          console.error(error);
+        });
 
       } else {
         console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);

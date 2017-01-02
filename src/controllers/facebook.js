@@ -728,45 +728,45 @@ function getUserProfile(userID) {
 
   // check user from database
   User.findOne({ id: userID }, function(err, result) {
-    if(!err) {
+    if(result) {
       console.log("User exists");
       return;
+    } else {
+      console.log("User not found");
+      return request({
+        method: 'GET',
+        uri: 'https://graph.facebook.com/v2.6/' + userID,
+        qs: { 
+          fields:"first_name,last_name,profile_pic,locale,timezone,gender",
+          access_token: PAGE_ACCESS_TOKEN 
+        },
+        json: true
+      }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log("Get user profile=" + JSON.stringify(body));
+
+          var data = JSON.parse(body);
+          // save user into database
+          var user = new User();
+          user.id = data.userID;
+          user.first_name = data.first_name; 
+          user.last_name = data.last_name;
+          user.image = data.profile_pic;
+          user.locale = data.locale;
+          user.timezone = data.timezone; 
+          user.gender = data.gender;
+          user.save(function (error) {
+            if(!err) {
+              console.log("Created user" + user.id);
+            }
+
+            console.error(error);
+          });
+
+        } else {
+          console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);
+        }
+      });
     }
-    
-    console.log("User not found");
-    return request({
-      method: 'GET',
-      uri: 'https://graph.facebook.com/v2.6/' + userID,
-      qs: { 
-        fields:"first_name,last_name,profile_pic,locale,timezone,gender",
-        access_token: PAGE_ACCESS_TOKEN 
-      },
-      json: true
-    }, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        console.log("Get user profile=" + JSON.stringify(body));
-
-        var data = JSON.parse(body);
-        // save user into database
-        var user = new User();
-        user.id = data.userID;
-        user.first_name = data.first_name; 
-        user.last_name = data.last_name;
-        user.image = data.profile_pic;
-        user.locale = data.locale;
-        user.timezone = data.timezone; 
-        user.gender = data.gender;
-        user.save(function (error) {
-          if(!err) {
-            console.log("Created user" + user.id);
-          }
-
-          console.error(error);
-        });
-
-      } else {
-        console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);
-      }
-    });
   });
 }

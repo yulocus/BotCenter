@@ -718,8 +718,6 @@ function callSendAPI (messageData) {
  */
 function getUserProfile(userID) {
   console.log("user id=" + userID);
-  mongoose.connect(MONGODB_URI);
-  console.log("Connect database successful");
 
   // check user from database
   User.findOne({ id: userID }, function(err, result) {

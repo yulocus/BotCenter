@@ -5,8 +5,6 @@ const request = require('request')
 const apiai = require('./apiai')
 const postback = require('./postback')
 
-{User} = require "../models/user"
-
 const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   (process.env.MESSENGER_VALIDATION_TOKEN) :
   config.get('validationToken')
@@ -25,6 +23,7 @@ const MONGODB_URI = (process.env.MONGODB_URI) ?
   config.get('mongodbURI')
 
 var mongoose = require('mongoose');
+var User = require('../models/user')
 
 /*
 * Authorization Event
@@ -723,23 +722,6 @@ function callSendAPI (messageData) {
 }
 
 /*
- * Call the CheckNewUser API. To check current user already save data into our db
- *
- */
-var checkNewUser = function(db, id, callback) {
-  var collection = db.collection("user");
-  var condition = {"id", id};
-  collection.find(condition).toArray(function(error) {
-    if(error) {
-      console.log("Check new user error, message=" + error);
-      return false;
-    } 
-
-    return true;
-  });
-}
-
-/*
  * Call the GetUserProfile API. To get facebook user profile
  *
  */
@@ -782,23 +764,5 @@ function getUserProfile(userID) {
         console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);
       }
     });
-}
-
-
-
-
-
-  // check user 
-  mongoClient.connect(MONGODB_URI, function(error, db){
-    console.log("Database connection successful");
-    
-    var userExists = checkNewUser(db, userID, function(result) {
-      console.log("result=" + result);
-      db.close();
-    });
-
-    if(userExists) return;
-
-   
-  }
+  });
 }

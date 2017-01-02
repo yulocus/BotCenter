@@ -748,7 +748,7 @@ function getUserProfile(userID) {
           var data = JSON.parse(body);
           // save user into database
           var user = new User();
-          user.id = data.userID;
+          user.id = userID;
           user.first_name = data.first_name; 
           user.last_name = data.last_name;
           user.image = data.profile_pic;

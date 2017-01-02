@@ -213,9 +213,7 @@ module.exports.receivedPostback = function (event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     'at %d', senderID, recipientID, payload, timeOfPostback)
 
-  if(checkNewUser(senderID)) {
-    getUserProfile(senderID)
-  }
+  getUserProfile(senderID)
 
   postback.handle(senderID, payload)
 }
@@ -238,9 +236,7 @@ module.exports.receivedMessageRead = function (event) {
   console.log('Received message read event for watermark %d and sequence ' +
     'number %d', watermark, sequenceNumber)
 
-  if(checkNewUser(senderID)) {
-    getUserProfile(senderID)
-  }
+  getUserProfile(senderID)
 }
 
 /*

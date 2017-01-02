@@ -17,12 +17,7 @@ const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL')
 
-
-const MONGODB_URI = (process.env.MONGODB_URI) ?
-  (process.env.MONGODB_URI) :
-  config.get('mongodbURI')
-
-var mongoose = require('mongoose');
+var mongoose = require('../controllers/mongoose');
 var User = require('../models/user')
 
 /*

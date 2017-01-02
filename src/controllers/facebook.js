@@ -764,4 +764,5 @@ function getUserProfile(userID) {
         console.error('Failed calling Facebook Graph API', response.statusCode, response.statusMessage, body.error);
       }
     });
+  }
 }

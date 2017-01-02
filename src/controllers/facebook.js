@@ -728,7 +728,7 @@ function getUserProfile(userID) {
 
   // check user from database
   User.findOne({ id: userID }, function(err, result) {
-    if(!err && result.length > 0) {
+    if(!err) {
       console.log("User exists");
       return;
     }

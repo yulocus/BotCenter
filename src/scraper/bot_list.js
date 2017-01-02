@@ -1,3 +1,5 @@
+'use strict'
+
 var Promise = require('bluebird')
 var cheerio = require('cheerio')
 var fetch = require('node-fetch')
@@ -8,7 +10,7 @@ module.exports.getBotList = function (page) {
   let url = baseUrl + page
 
   console.log('page:' + page)
-  
+
   verifyUrl(url)
 
   return fetch(url, {

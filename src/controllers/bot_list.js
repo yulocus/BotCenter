@@ -6,6 +6,10 @@ var Promise = require('bluebird')
 const elasticSearch = require('../elasticsearch')
 const botlistScraper = require('../scraper/bot_list')
 
+module.exports.listCategories = function(){
+    
+}
+
 module.exports.importBotList = function (req, res) {
   botlistScraper.getBotList(1).then(function (bots) {
     return getMoreUntilDone(bots, 1)

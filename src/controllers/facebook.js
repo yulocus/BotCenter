@@ -748,13 +748,20 @@ function getUserProfile(userID) {
           var data = JSON.parse(body);
           // save user into database
           var user = new User();
-          user.id = userID;
-          user.first_name = data.first_name; 
-          user.last_name = data.last_name;
-          user.image = data.profile_pic;
-          user.locale = data.locale;
-          user.timezone = data.timezone; 
-          user.gender = data.gender;
+          user.id = '1173650439355322';
+          user.first_name = 'Locus'; 
+          user.last_name = 'Yu';
+          user.image = 'https://scontent.xx.fbcdn.net/v/t31.0-1/12140113_424371287768179_6567211013396119194_o.jpg?oh=5c76df815770bb90b5ffaaa530740598&oe=58DE3965';
+          user.locale = 'zh_TW';
+          user.timezone = '8'; 
+          user.gender = 'male';
+          // user.id = userID;
+          // user.first_name = data.first_name; 
+          // user.last_name = data.last_name;
+          // user.image = data.profile_pic;
+          // user.locale = data.locale;
+          // user.timezone = data.timezone; 
+          // user.gender = data.gender;
           user.save(function (error) {
             if(!err) {
               console.log("Created user" + user.id);

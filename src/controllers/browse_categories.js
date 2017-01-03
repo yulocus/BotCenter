@@ -9,12 +9,12 @@ module.exports.handle = function (sender, params) {
   botList.listCategories().then(function (categories) {
     let items = JSON.parse(JSON.stringify(categories))
 
-    var buttons = []
-    items.forEach(function(item) {
-      console.log(item.key);
-      let button = fb.generateQuickReplyButton(item.key, JSON.stringify({action: item.key}))
-      buttons.push(button)
-    })
+    let buttons = []
+    for(var i = 0; i < 10; i++) {
+        console.log(item[i].key);
+        let button = fb.generateQuickReplyButton(item[i].key, JSON.stringify({action: item[i].key}))
+        buttons.push(button)
+    }
 
     fb.sendQuickReply(sender, 'Choose your categories?', buttons)
   })

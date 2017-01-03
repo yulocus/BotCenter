@@ -11,8 +11,8 @@ module.exports.handle = function (sender, params) {
 
     let buttons = []
     for(var i = 0; i < 10; i++) {
-        console.log(item[i].key);
-        let button = fb.generateQuickReplyButton(item[i].key, JSON.stringify({action: item[i].key}))
+        console.log(items[i].key);
+        let button = fb.generateQuickReplyButton(items[i].key, JSON.stringify({action: items[i].key}))
         buttons.push(button)
     }
 

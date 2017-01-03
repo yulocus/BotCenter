@@ -4,12 +4,16 @@ const fb = require('./facebook')
 const botList = require('./bot_list')
 
 module.exports.handle = function (sender, params) {
-  // TODO: implement browse
-
+  // implement browse
   botList.listCategories().then(function (categories) {
-    let jsonStr = JSON.stringify(categories)
-    // Length of message must be less than or equal to 640
-    let subStr = jsonStr.substr(0, 639)
-    fb.sendTextMessage(sender, subStr)
+    let items = JSON.parse(JSON.stringify(categories))
+    let buttons = []
+    items.forEach(function(item) {
+      console.log(item.key);
+      let text = fb.generateQuickReplyButton("text", item.key, JSON.stringify({action: item.key}))
+      buttons.push(text)
+    })
+
+    fb.sendQuickReply(sender, 'Choose your categories?', buttons)
   })
 }

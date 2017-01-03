@@ -408,12 +408,13 @@ function sendButtonMessage (recipientId, text, buttons) {
         payload: {
           template_type: 'button',
           text,
-        buttons}
+          buttons
+        }
       }
     }
   }
 
-  /** 
+  /**
    buttons: [{
       type: 'web_url',
       url: 'https://www.oculus.com/en-us/rift/',
@@ -572,34 +573,26 @@ function sendReceiptMessage (recipientId) {
  * Send a message with Quick Reply buttons.
  *
  */
-function sendQuickReply (recipientId) {
+function sendQuickReply (recipientId, text, buttons) {
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: "What's your favorite movie genre?",
-      quick_replies: [
-        {
-          'content_type': 'text',
-          'title': 'Action',
-          'payload': 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION'
-        },
-        {
-          'content_type': 'text',
-          'title': 'Comedy',
-          'payload': 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY'
-        },
-        {
-          'content_type': 'text',
-          'title': 'Drama',
-          'payload': 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA'
-        }
-      ]
+      text,
+      buttons
     }
   }
 
   callSendAPI(messageData)
+}
+
+module.exports.generateQuickReplyButton = function (text, title, payload) {
+  return {
+    text,
+    title,
+    payload
+  }
 }
 
 /*
@@ -730,9 +723,9 @@ function getUserProfile(userID) {
       return request({
         method: 'GET',
         uri: 'https://graph.facebook.com/v2.6/' + userID,
-        qs: { 
+        qs: {
           fields:"first_name,last_name,profile_pic,locale,timezone,gender",
-          access_token: PAGE_ACCESS_TOKEN 
+          access_token: PAGE_ACCESS_TOKEN
         },
         json: true
       }, function (error, response, body) {
@@ -744,18 +737,18 @@ function getUserProfile(userID) {
           var user = new User();
           // test user
           // user.id = '1173650439355322';
-          // user.first_name = 'Locus'; 
+          // user.first_name = 'Locus';
           // user.last_name = 'Yu';
           // user.image = 'https://scontent.xx.fbcdn.net/v/t31.0-1/12140113_424371287768179_6567211013396119194_o.jpg?oh=5c76df815770bb90b5ffaaa530740598&oe=58DE3965';
           // user.locale = 'zh_TW';
-          // user.timezone = '8'; 
+          // user.timezone = '8';
           // user.gender = 'male';
           user.id = userID;
-          user.first_name = data.first_name; 
+          user.first_name = data.first_name;
           user.last_name = data.last_name;
           user.image = data.profile_pic;
           user.locale = data.locale;
-          user.timezone = data.timezone; 
+          user.timezone = data.timezone;
           user.gender = data.gender;
           user.save(function (error) {
             if(!err) {

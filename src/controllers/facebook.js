@@ -448,7 +448,8 @@ module.exports.generateButton = function (type, title, payload) {
     return {
       type,
       title,
-    payload}
+      payload
+    }
   }
 }
 
@@ -580,8 +581,8 @@ function sendQuickReply (recipientId, text, buttons) {
       id: recipientId
     },
     message: {
-      text,
-      buttons
+      text: text,
+      quick_replies: buttons
     }
   }
 

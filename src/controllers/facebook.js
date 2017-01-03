@@ -589,9 +589,9 @@ function sendQuickReply (recipientId, text, buttons) {
   callSendAPI(messageData)
 }
 
-module.exports.generateQuickReplyButton = function (title, payload) {
+module.exports.generateQuickReplyButton = function (type, title, payload) {
   return {
-    'content_type': 'text',
+    type,
     title,
     payload
   }

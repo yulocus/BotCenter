@@ -7,6 +7,9 @@ module.exports.handle = function (sender, params) {
   // TODO: implement browse
 
   botList.listCategories().then(function (categories) {
-    fb.sendTextMessage(sender, JSON.stringify(categories))
+    let jsonStr = JSON.stringify(categories)
+    // Length of message must be less than or equal to 640
+    let subStr = jsonStr.substr(0, 639)
+    fb.sendTextMessage(sender, subStr)
   })
 }

@@ -10,10 +10,11 @@ module.exports.handle = function (sender, params) {
     let buttons = []
     items.forEach(function(item) {
       console.log(item.key);
-      let text = fb.generateQuickReplyButton("text", item.key, JSON.stringify({action: item.key}))
-      buttons.push(text)
+      let button = fb.generateQuickReplyButton(item.key, JSON.stringify({action: item.key}))
+      buttons.push(button)
     })
 
+    console.log(items.size());
     fb.sendQuickReply(sender, 'Choose your categories?', buttons)
   })
 }

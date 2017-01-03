@@ -14,7 +14,7 @@ module.exports.handle = function (sender, params) {
       buttons.push(button)
     })
 
-    console.log(items.size());
+    console.log(buttons.size())
     fb.sendQuickReply(sender, 'Choose your categories?', buttons)
   })
 }

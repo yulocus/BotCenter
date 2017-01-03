@@ -573,7 +573,7 @@ function sendReceiptMessage (recipientId) {
  * Send a message with Quick Reply buttons.
  *
  */
-module.exports.sendQuickReply = sendButtonMessage
+module.exports.sendQuickReply = sendQuickReply
 function sendQuickReply (recipientId, text, buttons) {
   var messageData = {
     recipient: {

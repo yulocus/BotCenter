@@ -17,7 +17,7 @@ const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL')
 
-var mongoose = require('mongoose');
+var mongoose = require('./mongoose');
 var User = require('../models/user')
 
 /*

@@ -7,12 +7,12 @@ module.exports.handle = function (sender, params) {
   // implement browse
   botList.listCategories().then(function (categories) {
     let items = JSON.parse(JSON.stringify(categories))
-    var buttons = []
-    items.forEach(function(item) {
-      console.log(item.key);
-      let button = fb.generateQuickReplyButton(item.key, JSON.stringify({action: item.key}))
-      buttons.push(button)
-    })
+    var buttons = ['Personal','Utilities','Social & Fun','Entertainment','Travel','Food','News']
+    // items.forEach(function(item) {
+    //   console.log(item.key);
+    //   let button = fb.generateQuickReplyButton(item.key, JSON.stringify({action: item.key}))
+    //   buttons.push(button)
+    // })
 
     console.log(buttons.size())
     fb.sendQuickReply(sender, 'Choose your categories?', buttons)

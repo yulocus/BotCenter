@@ -7,7 +7,7 @@ module.exports.handle = function (sender, params) {
   // implement browse
   botList.listCategories().then(function (categories) {
     let items = JSON.parse(JSON.stringify(categories))
-    let buttons = []
+    var buttons = []
     items.forEach(function(item) {
       console.log(item.key);
       let button = fb.generateQuickReplyButton(item.key, JSON.stringify({action: item.key}))

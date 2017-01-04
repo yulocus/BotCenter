@@ -21,3 +21,8 @@ module.exports.handle = function (sender, params) {
     fb.sendQuickReply(sender, 'Choose your categories?', buttons)
   })
 }
+
+module.exports.showMore = function (sender, params) {
+  //TODO: implement show more
+  fb.sendMessage(sender, 'TODO: Implement')
+}

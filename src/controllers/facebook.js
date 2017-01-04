@@ -82,15 +82,15 @@ module.exports.receivedMessage = function (event) {
   // You may get a text or attachment but not both
   var messageText = message.text
   var messageAttachments = message.attachments
-  var quickReply = message.quick_reply
+  var messageQuickReply = message.quick_reply
 
   if (isEcho) {
     // Just logging message echoes to console
     console.log('Received echo for message %s and app %d with metadata %s',
       messageId, appId, metadata)
     return
-  } else if (quickReply) {
-    var quickReplyPayload = quickReply.payload
+  } else if (messageQuickReply) {
+    var quickReplyPayload = messageQuickReply.payload
     console.log('Quick reply for message %s with payload %s',
       messageId, quickReplyPayload)
 

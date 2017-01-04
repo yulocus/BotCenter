@@ -17,9 +17,6 @@ exports.handle = function (sender, payload) {
   if (isJson) {
     params = JSON.parse(payload)
     action = params.action
-    if(!params.index) {
-      index = params.index
-    }
   } else {
     console.log('payload is not json')
     return
@@ -34,7 +31,7 @@ exports.handle = function (sender, payload) {
   } else if (action == 'delete_all') {
     del.handle(sender, params)
   } else if (action == 'more_categories') {
-    more_categories.handle(sender, message)
+    more_categories.handle(sender, params)
   }
 }
 

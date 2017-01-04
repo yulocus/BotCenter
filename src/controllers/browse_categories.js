@@ -15,7 +15,7 @@ module.exports.handle = function (sender, params) {
         let button = fb.generateQuickReplyButton(items[i].key, JSON.stringify({action: items[i].key}))
         buttons.push(button)
     }
-    let buttonMore = fb.generateQuickReplyButton('More categories', JSON.stringify({action: 'more_categories', index: buttons.size()}))
+    let buttonMore = fb.generateQuickReplyButton('More categories', JSON.stringify({action: 'more_categories'}))
     buttons.push(buttonMore)
 
     fb.sendQuickReply(sender, 'Choose your categories?', buttons)

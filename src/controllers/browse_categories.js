@@ -10,11 +10,13 @@ module.exports.handle = function (sender, params) {
     let items = JSON.parse(JSON.stringify(categories))
 
     let buttons = []
-    for(var i = 0; i < 10; i++) {
+    for(var i = 0; i < 8; i++) {
         console.log(items[i].key);
         let button = fb.generateQuickReplyButton(items[i].key, JSON.stringify({action: items[i].key}))
         buttons.push(button)
     }
+    let buttonMore = fb.generateQuickReplyButton('More categories', JSON.stringify({action: 'more_categories', index: buttons.size()}))
+    buttons.push(buttonMore)
 
     fb.sendQuickReply(sender, 'Choose your categories?', buttons)
   })

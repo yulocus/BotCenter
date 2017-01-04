@@ -4,6 +4,7 @@ const config = require('config')
 const request = require('request')
 const apiai = require('./apiai')
 const postback = require('./postback')
+const quickreply = require('./quickreply')
 
 const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   (process.env.MESSENGER_VALIDATION_TOKEN) :
@@ -93,7 +94,7 @@ module.exports.receivedMessage = function (event) {
     console.log('Quick reply for message %s with payload %s',
       messageId, quickReplyPayload)
 
-    postback.handle(senderID, quickReplyPayload)
+    quickreply.handle(senderID, quickReplyPayload)
     return
   }
 

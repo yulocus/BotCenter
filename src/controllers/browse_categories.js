@@ -24,5 +24,5 @@ module.exports.handle = function (sender, params) {
 
 module.exports.showMore = function (sender, params) {
   //TODO: implement show more
-  fb.sendMessage(sender, 'TODO: Implement')
+  fb.sendTextMessage(sender, 'TODO: Implement')
 }

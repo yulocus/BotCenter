@@ -93,7 +93,7 @@ module.exports.receivedMessage = function (event) {
     console.log('Quick reply for message %s with payload %s',
       messageId, quickReplyPayload)
 
-    sendTextMessage(senderID, 'Quick reply tapped')
+    postback.handle(senderID, quickReplyPayload)
     return
   }
 
@@ -162,6 +162,8 @@ module.exports.receivedMessage = function (event) {
   } else if (messageAttachments) {
     sendTextMessage(senderID, 'Message with attachment received')
   }
+
+  getUserProfile(senderID)
 }
 
 /*
@@ -201,14 +203,14 @@ module.exports.receivedPostback = function (event) {
   var recipientID = event.recipient.id
   var timeOfPostback = event.timestamp
 
+  getUserProfile(senderID)
+
   // The 'payload' param is a developer-defined field which is set in a postback
   // button for Structured Messages.
   var payload = event.postback.payload
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
     'at %d', senderID, recipientID, payload, timeOfPostback)
-
-  getUserProfile(senderID)
 
   postback.handle(senderID, payload)
 }
@@ -230,8 +232,6 @@ module.exports.receivedMessageRead = function (event) {
 
   console.log('Received message read event for watermark %d and sequence ' +
     'number %d', watermark, sequenceNumber)
-
-  getUserProfile(senderID)
 }
 
 /*
@@ -258,7 +258,8 @@ module.exports.sendMessage = function (recipientId, message) {
     recipient: {
       id: recipientId
     },
-  message}
+    message
+  }
 
   callSendAPI(messageData)
 }
@@ -413,22 +414,6 @@ function sendButtonMessage (recipientId, text, buttons) {
       }
     }
   }
-
-  /**
-   buttons: [{
-      type: 'web_url',
-      url: 'https://www.oculus.com/en-us/rift/',
-      title: 'Open Web URL'
-    }, {
-      type: 'postback',
-      title: 'Trigger Postback',
-      payload: 'DEVELOPER_DEFINED_PAYLOAD'
-    }, {
-      type: 'phone_number',
-      title: 'Call Phone Number',
-      payload: '+16505551234'
-    }]
-  */
 
   callSendAPI(messageData)
 }
